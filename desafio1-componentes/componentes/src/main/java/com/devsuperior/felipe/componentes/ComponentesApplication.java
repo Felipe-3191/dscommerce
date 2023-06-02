@@ -20,6 +20,7 @@ public class ComponentesApplication implements CommandLineRunner {
 		this.orderService = orderService;
 	}
 
+	//não foi necessário mapear os services pois coloquei na pasta abaixo do pacote principal.
 	public static void main(String[] args) {
 		SpringApplication.run(ComponentesApplication.class, args);
 	}
