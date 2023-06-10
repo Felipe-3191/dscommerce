@@ -3,6 +3,7 @@ package com.devsuperior.felipe.dominioorm.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.Objects;
 
 
 @Entity
@@ -62,5 +63,20 @@ public class Bloco {
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Bloco bloco = (Bloco) o;
+
+        return Objects.equals(id, bloco.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

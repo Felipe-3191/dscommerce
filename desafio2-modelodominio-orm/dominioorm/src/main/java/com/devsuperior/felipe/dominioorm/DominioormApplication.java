@@ -9,8 +9,6 @@ public class DominioormApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DominioormApplication.class, args);
 
-		
-
 	}
 
 }
