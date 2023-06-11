@@ -1,5 +1,6 @@
 package com.devsuperior.felipe.dscommerce.entities;
 
+import com.devsuperior.felipe.dscommerce.dto.ProductDTO;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -35,6 +36,16 @@ public class Product {
 
     public Product() {};
 
+// por enquanto entendo como má prática fazer com que entities se acoplem com DTOs
+//    public static Product fromDTO(ProductDTO dto){
+//        return new Product(
+//                dto.getId(),
+//                dto.getName(),
+//                dto.getDescription(),
+//                dto.getPrice(),
+//                dto.getImgUrl()
+//        );
+//    }
     public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
