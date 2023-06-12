@@ -1,8 +1,10 @@
 package com.devsuperior.felipe.dscommerce.controllers.handlers;
 
 import com.devsuperior.felipe.dscommerce.dto.CustomError;
+import com.devsuperior.felipe.dscommerce.services.exceptions.DatabaseException;
 import com.devsuperior.felipe.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,5 +21,20 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomError> databaseException(DatabaseException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(Instant.now(), status.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+  /*  @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<CustomError> databaseException(DataIntegrityViolationException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(Instant.now(), status.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }*/
+
 
 }
