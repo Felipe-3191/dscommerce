@@ -3,6 +3,7 @@ package com.devsuperior.felipe.dscommerce.services;
 import com.devsuperior.felipe.dscommerce.dto.ProductDTO;
 import com.devsuperior.felipe.dscommerce.entities.Product;
 import com.devsuperior.felipe.dscommerce.repositories.ProductRepository;
+import com.devsuperior.felipe.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> result = repository.findById(id);
-        Product product = result.get();
+        Product product = result.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
         ProductDTO dto = new ProductDTO(product);
         return dto;
     }
@@ -41,6 +42,19 @@ public class ProductService {
         return new ProductDTO(entity);
     }
 
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto){
+        Product entity = repository.getReferenceById(id);
+        this.copyDTOtoEntity(dto,entity);
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
     private Product fromDTO(ProductDTO dto) {
         return new Product(
                 dto.getId(),
@@ -49,6 +63,15 @@ public class ProductService {
                 dto.getPrice(),
                 dto.getImgUrl()
         );
+    }
+
+
+
+    private void copyDTOtoEntity(ProductDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
     }
 
 }
