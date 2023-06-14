@@ -3,6 +3,7 @@ package com.devsuperior.felipe.desafiocrud.controllers;
 import com.devsuperior.felipe.desafiocrud.entities.Client;
 import com.devsuperior.felipe.desafiocrud.entities.dto.ClientDTO;
 import com.devsuperior.felipe.desafiocrud.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,14 +34,14 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> insert (@RequestBody ClientDTO dto) {
+    public ResponseEntity<ClientDTO> insert (@Valid @RequestBody ClientDTO dto) {
         ClientDTO responseClient = service.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseClient.getId()).toUri();
         return ResponseEntity.created(uri).body(responseClient);
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity<ClientDTO> update (@PathVariable Long id, @RequestBody ClientDTO dto) {
+    public ResponseEntity<ClientDTO> update (@PathVariable Long id, @Valid @RequestBody ClientDTO dto) {
         ClientDTO responseClient = service.update(id, dto);
         return ResponseEntity.ok().body(responseClient);
     }
