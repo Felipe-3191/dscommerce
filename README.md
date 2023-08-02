@@ -1,2 +1,2 @@
-# dev-superior
-Repositório com os exercícios e desafios do curso dev-superior
+# DSCOMMERCE
+Repositório com o projeto DSCOMMERCE do curso dev-superior
