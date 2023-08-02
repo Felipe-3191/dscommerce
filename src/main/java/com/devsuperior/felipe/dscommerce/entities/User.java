@@ -3,9 +3,7 @@ package com.devsuperior.felipe.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -19,10 +17,16 @@ public class User {
 
     @Column(unique = true)
     private String email;
-    
+
     private String phone;
     private LocalDate BirthDate;
     private String Password;
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     //nome do atributo na classe destino
     @OneToMany(mappedBy = "client")
@@ -91,6 +95,8 @@ public class User {
     public List<Order> getOrders() {
         return orders;
     }
+
+    public Set<Role> getRoles() {return this.roles;}
 
     @Override
     public boolean equals(Object o) {
