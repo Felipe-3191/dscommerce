@@ -103,22 +103,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public void setPassword(String password) {
@@ -133,6 +133,11 @@ public class User implements UserDetails {
 
     public void addRole(Role role){
         this.roles.add(role);
+    }
+
+    public boolean hasRole(String roleName) {
+        if (roleName == null || roleName.isEmpty()) return false;
+        return this.roles.stream().filter( role -> role.getAuthority().equals(roleName)).findAny().isPresent();
     }
 
     @Override
