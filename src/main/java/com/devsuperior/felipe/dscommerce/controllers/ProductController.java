@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,6 +39,7 @@ public class ProductController {
 
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> insert (@Valid @RequestBody ProductDTO dto){
         ProductDTO response = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -47,12 +49,14 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> update (@PathVariable Long id, @Valid @RequestBody ProductDTO dto){
         ProductDTO response = service.update(id, dto);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete (@PathVariable Long id){
         service.delete(id);
         //return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); alternativamente também funcionaria assim
