@@ -2,6 +2,7 @@ package com.devsuperior.felipe.dscommerce.entities;
 
 import com.devsuperior.felipe.dscommerce.dto.ProductDTO;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Product {
     private String imgUrl;
 
     @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
     @JoinTable(name = "tb_product_category",
     joinColumns = @JoinColumn(name = "product_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id"))

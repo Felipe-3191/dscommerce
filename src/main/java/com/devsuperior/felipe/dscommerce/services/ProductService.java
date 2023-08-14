@@ -2,6 +2,7 @@ package com.devsuperior.felipe.dscommerce.services;
 
 import com.devsuperior.felipe.dscommerce.dto.ProductDTO;
 import com.devsuperior.felipe.dscommerce.dto.ProductMinDTO;
+import com.devsuperior.felipe.dscommerce.entities.Category;
 import com.devsuperior.felipe.dscommerce.entities.Product;
 import com.devsuperior.felipe.dscommerce.repositories.ProductRepository;
 import com.devsuperior.felipe.dscommerce.services.exceptions.DatabaseException;
@@ -45,6 +46,7 @@ public class ProductService {
     public ProductDTO insert(ProductDTO dto){
         Product entity = fromDTO(dto);
         entity = repository.save(entity);
+        repository.refresh(entity);
         return new ProductDTO(entity);
     }
 
@@ -75,13 +77,20 @@ public class ProductService {
     }
 
     private Product fromDTO(ProductDTO dto) {
-        return new Product(
+        Product p = new Product(
                 dto.getId(),
                 dto.getName(),
                 dto.getDescription(),
                 dto.getPrice(),
                 dto.getImgUrl()
         );
+
+        dto.getCategories().stream().forEach(c -> {
+            Category cat = new Category(c.getId(), c.getName());
+            p.getCategories().add(cat);
+        } );
+
+        return p;
     }
 
 
@@ -91,6 +100,13 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+        //limpa previamente a lista de categorias
+        entity.getCategories().clear();
+        dto.getCategories().stream().forEach(c -> {
+            Category cat = new Category();
+            cat.setId(c.getId());
+            entity.getCategories().add(cat);
+        });
     }
 
 }
