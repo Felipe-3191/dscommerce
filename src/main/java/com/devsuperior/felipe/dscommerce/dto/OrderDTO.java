@@ -2,6 +2,7 @@ package com.devsuperior.felipe.dscommerce.dto;
 
 import com.devsuperior.felipe.dscommerce.entities.Order;
 import com.devsuperior.felipe.dscommerce.entities.OrderStatus;
+import jakarta.validation.Valid;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class OrderDTO {
 
     private PaymentDTO payment;
 
+    @Valid
     private List<OrderItemDTO> items = new ArrayList<>();
 
 

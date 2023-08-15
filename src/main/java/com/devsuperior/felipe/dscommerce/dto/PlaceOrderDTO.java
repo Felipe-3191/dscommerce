@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class PlaceOrderDTO {
     @NotEmpty(message = "A lista precisa possuir ao menos um pedido")
+    @Valid
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public PlaceOrderDTO() {
