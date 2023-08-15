@@ -1,10 +1,7 @@
 package com.devsuperior.felipe.dscommerce.dto;
 
 import com.devsuperior.felipe.dscommerce.entities.Product;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,7 @@ public class ProductDTO {
     @NotBlank(message = "Descrição não pode ser vazia")
     private String description;
 
+    @NotNull(message = "Campo Requerido")
     @Positive(message = "o preço deve ser positivo")
     private Double price;
 
