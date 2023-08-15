@@ -140,6 +140,8 @@ public class User implements UserDetails {
         return this.roles.stream().filter( role -> role.getAuthority().equals(roleName)).findAny().isPresent();
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

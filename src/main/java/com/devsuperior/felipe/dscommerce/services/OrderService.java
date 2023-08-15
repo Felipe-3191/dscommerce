@@ -28,6 +28,9 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {
         //por estar dentro da mesma transação eu poderia buscar através do repository.findOrderById
@@ -35,6 +38,10 @@ public class OrderService {
         Order order = repository.searchOrderByIdWithItems(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não Encontrado")
         );
+
+    authService.validateSelfOrAdmin(order.getClient().getId());
+
+
 
         return new OrderDTO(order);
     }

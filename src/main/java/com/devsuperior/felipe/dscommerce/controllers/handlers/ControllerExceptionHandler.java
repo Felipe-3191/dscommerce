@@ -3,6 +3,7 @@ package com.devsuperior.felipe.dscommerce.controllers.handlers;
 import com.devsuperior.felipe.dscommerce.dto.CustomError;
 import com.devsuperior.felipe.dscommerce.dto.ValidationError;
 import com.devsuperior.felipe.dscommerce.services.exceptions.DatabaseException;
+import com.devsuperior.felipe.dscommerce.services.exceptions.ForbiddenException;
 import com.devsuperior.felipe.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -49,4 +50,10 @@ public class ControllerExceptionHandler {
     }*/
 
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbidden(ForbiddenException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError err = new CustomError(Instant.now(), status.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 }
