@@ -90,6 +90,9 @@ public class Order {
         return this.items.stream().map(p -> p.getProduct()).collect(Collectors.toList());
     }
 
+    public void addOrderItem(OrderItem item){
+        this.items.add(item);
+    }
 
     @Override
     public boolean equals(Object o) {

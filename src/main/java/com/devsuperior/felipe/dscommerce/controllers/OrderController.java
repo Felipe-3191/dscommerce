@@ -1,6 +1,7 @@
 package com.devsuperior.felipe.dscommerce.controllers;
 
 import com.devsuperior.felipe.dscommerce.dto.OrderDTO;
+import com.devsuperior.felipe.dscommerce.dto.PlaceOrderDTO;
 import com.devsuperior.felipe.dscommerce.dto.ProductDTO;
 import com.devsuperior.felipe.dscommerce.dto.ProductMinDTO;
 import com.devsuperior.felipe.dscommerce.services.OrderService;
@@ -11,10 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -31,5 +34,13 @@ public class OrderController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @PostMapping
+    public ResponseEntity<OrderDTO> insert(@Valid @RequestBody PlaceOrderDTO dto) {
+
+
+        OrderDTO orderPlaced = service.insert(dto);
+        return ResponseEntity.ok(orderPlaced);
+    }
 
 }

@@ -1,12 +1,17 @@
 package com.devsuperior.felipe.dscommerce.dto;
 
 import com.devsuperior.felipe.dscommerce.entities.OrderItem;
+import jakarta.validation.constraints.Positive;
 
 public class OrderItemDTO {
 
     private Long productId;
     private String name;
+
+    @Positive
     private Double price;
+
+    @Positive
     private Integer quantity;
 
 
